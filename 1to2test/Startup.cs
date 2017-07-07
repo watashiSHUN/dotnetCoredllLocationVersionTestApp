@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace _1to2test
 {
@@ -30,7 +31,10 @@ namespace _1to2test
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                var ass = typeof(Microsoft.AspNetCore.Hosting.WebHostBuilder).GetTypeInfo().Assembly;
+                var location = ass.Location;
+                var version = ass.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+                await context.Response.WriteAsync($"location : {location} \nversion : {version}");
             });
         }
     }
